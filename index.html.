@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tic Tac Toe</title>
+    <style>
+        body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; }
+        .board { display: grid; grid-template-columns: repeat(3, 100px); gap: 5px; }
+        .cell { width: 100px; height: 100px; border: 2px solid #333; display: flex; 
+                justify-content: center; align-items: center; font-size: 2rem; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>Tic Tac Toe</h1>
+    <div class="board" id="board">
+        <div class="cell" onclick="makeMove(0)"></div>
+        <div class="cell" onclick="makeMove(1)"></div>
+        <div class="cell" onclick="makeMove(2)"></div>
+        <div class="cell" onclick="makeMove(3)"></div>
+        <div class="cell" onclick="makeMove(4)"></div>
+        <div class="cell" onclick="makeMove(5)"></div>
+        <div class="cell" onclick="makeMove(6)"></div>
+        <div class="cell" onclick="makeMove(7)"></div>
+        <div class="cell" onclick="makeMove(8)"></div>
+    </div>
+    <h2 id="status">Player X's Turn</h2>
+    <button onclick="resetGame()">Restart</button>
+
+    <script>
+        let board = ["", "", "", "", "", "", "", "", ""];
+        let currentPlayer = "X";
+        let active = true;
+
+        function makeMove(i) {
+            if (board[i] === "" && active) {
+                board[i] = currentPlayer;
+                document.getElementsByClassName('cell')[i].innerText = currentPlayer;
+                checkWin();
+                currentPlayer = currentPlayer === "X" ? "O" : "X";
+                if(active) document.getElementById('status').innerText = `Player ${currentPlayer}'s Turn`;
+            }
+        }
+
+        function checkWin() {
+            const wins = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+            for (let s of wins) {
+                if (board[s[0]] && board[s[0]] === board[s[1]] && board[s[0]] === board[s[2]]) {
+                    document.getElementById('status').innerText = `Player ${board[s[0]]} Wins!`;
+                    active = false;
+                }
+            }
+        }
+
+        function resetGame() {
+            board = ["", "", "", "", "", "", "", "", ""];
+            active = true;
+            currentPlayer = "X";
+            document.querySelectorAll('.cell').forEach(c => c.innerText = "");
+            document.getElementById('status').innerText = "Player X's Turn";
+        }
+    </script>
+</body>
+</html>
